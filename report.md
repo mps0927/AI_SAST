@@ -2,7 +2,7 @@
 이름: 이재우
 ## 1. Agent 구성도와 Skill 작성 시 주안점
 
-REFINE-SAST의 Agent는 자유롭게 대화하는 LLM 인스턴스가 아니라, 역할별
+설계한 SAST의 Agent는 자유롭게 대화하는 LLM 인스턴스가 아니라, 역할별
 prompt·입력·출력 schema·권한·종료 조건을 가진 검증 가능한 프로그램
 구성요소다. 분석 순서는 `Triage → Investigator → Challenger → Judge`로
 고정하며 Orchestrator가 실행과 상태 전이를 관리한다.
