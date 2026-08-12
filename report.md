@@ -382,10 +382,6 @@ overflow 가능성은 낮다. 이는 Challenger가 상위 입력 길이 불변�
    못하게 해 모델의 참조 환각을 줄인다.
 5. **Fail-safe full chain**: 선행 Agent가 실패해도 후속 Challenger와 Judge가
    UNKNOWN packet을 받아 실행되며 결과는 INCONCLUSIVE로 닫힌다.
-6. **측정 가능한 절약**: 단순히 “토큰을 줄였다”고 주장하지 않고 전체 저장소,
-   선정 코드, Provider usage를 서로 다른 baseline으로 기록한다.
-7. **Privacy-aware ledger**: 재현에 필요한 version/hash/usage는 남기면서 API
-   Key, prompt 본문, 불필요한 source는 artifact에서 제외한다.
 
 일반적인 단일 LLM 코드 리뷰와 달리 가설 생성, 증거 확인, 반례 탐색, 판정이
 분리돼 있고 최종 결정권 일부를 deterministic program이 보유한다는 점이
@@ -430,17 +426,6 @@ git -C target/userland checkout a54a0dbb2b8dcf9bafdddfc9a9374fb51d97e976
 python sast.py scan
 python sast.py test
 ```
-
-실제 API 분석은 명시적 승인이 있을 때만 실행한다.
-
-```powershell
-$env:GEMINI_API_KEY = "발급받은_키"
-python sast.py smoke --execute-approved
-python sast.py analyze --execute-approved
-```
-
-기본 12회, 전체 19회 상한, 최대 추가 transient retry 7회, 호출 시작 간격
-최소 4.1초를 적용한다. Key 값은 설정이나 artifact에 기록하지 않는다.
 
 ## 14. 한계와 개선 방향
 
