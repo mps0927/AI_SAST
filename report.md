@@ -179,11 +179,11 @@ Receive only the finding, registered Evidence IDs, contradiction messages, proof
 
 ## 4. 납품 도구로서의 차별점
 
-REFINE-SAST를 고객에게 납품하는 관점에서 가장 큰 차이는 “LLM이 취약하다고
+고객에게 납품하는 관점에서 가장 큰 차이는 “LLM이 취약하다고
 말한 결과”만 제공하는 것이 아니라, **왜 그 판정이 나왔는지 추적하고 다시
 검증할 수 있는 분석 과정과 근거**를 함께 제공한다는 점이다.
 
-| 비교 항목 | 일반적인 단일 LLM 코드 리뷰 | REFINE-SAST |
+| 비교 항목 | 일반적인 단일 LLM 코드 리뷰 | My_SAST |
 |---|---|---|
 | 대형 저장소 처리 | 파일 전체 또는 사용자가 선택한 일부 코드 입력 | 저장소 스캔, 함수 중심 분할, 위험도·다양성 기반 Batch 선정 자동화 |
 | 분석 역할 | 하나의 모델이 가설·검증·판정을 모두 수행 | Triage·Investigator·Challenger·Judge로 책임과 권한 분리 |
