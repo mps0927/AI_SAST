@@ -4,8 +4,7 @@
 
 - 과제: AI로 만든 SAST
 - 작성자: 이재우
-- 도구명: REFINE-SAST
-- GitHub 저장소: **[GitHub 업로드 후 저장소 URL 입력]**
+- GitHub 저장소: https://github.com/mps0927/AI_SAST
 - TargetCode: <https://github.com/raspberrypi/userland>
 - 분석 commit: `a54a0dbb2b8dcf9bafdddfc9a9374fb51d97e976`
 - 최종 분석 Run ID: `gemini-recovery-3batch-20260812T175919Z`
@@ -163,7 +162,7 @@ Skill 작성에서 다음을 우선했다.
 5. 명시적 종료: 모든 Agent가 한정된 호출과 문맥 요청 안에서 끝난다.
 6. 실패 폐쇄: 미확인 proof가 있으면 SAFE가 아니라 INCONCLUSIVE다.
 
-## 7. 실제 Agent Prompt
+## 7. Agent Prompt
 
 실행에 사용한 전체 prompt는 [`prompts/`](prompts/)에 있고 각 파일 hash는
 token ledger의 prompt version으로 추적된다. 핵심 지시는 다음과 같다.
