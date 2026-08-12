@@ -1,0 +1,226 @@
+{
+  "active_profile": "gemini-recovery",
+  "profiles": {
+    "development": {
+      "provider": "openai-responses",
+      "roles": {
+        "CHALLENGER": {
+          "max_output_tokens": 800,
+          "model": "gpt-5.6-sol",
+          "reasoning_effort": "high"
+        },
+        "INVESTIGATOR": {
+          "max_output_tokens": 1200,
+          "model": "gpt-5.6-sol",
+          "reasoning_effort": "high"
+        },
+        "JUDGE": {
+          "max_output_tokens": 800,
+          "model": "gpt-5.6-sol",
+          "reasoning_effort": "xhigh"
+        },
+        "TRIAGE": {
+          "max_output_tokens": 400,
+          "model": "gpt-5.6-luna",
+          "reasoning_effort": "low"
+        }
+      }
+    },
+    "production": {
+      "provider": "openai-responses",
+      "roles": {
+        "CHALLENGER": {
+          "max_output_tokens": 800,
+          "model": "gpt-5.6-sol",
+          "reasoning_effort": "high"
+        },
+        "INVESTIGATOR": {
+          "max_output_tokens": 1200,
+          "model": "gpt-5.6-sol",
+          "reasoning_effort": "high"
+        },
+        "JUDGE": {
+          "max_output_tokens": 800,
+          "model": "gpt-5.6-sol",
+          "reasoning_effort": "xhigh"
+        },
+        "TRIAGE": {
+          "max_output_tokens": 400,
+          "model": "gpt-5.6-luna",
+          "reasoning_effort": "low"
+        }
+      }
+    },
+    "local-balanced": {
+      "provider": "ollama-local",
+      "endpoint": "http://127.0.0.1:11434",
+      "roles": {
+        "CHALLENGER": {
+          "fallback_model": "qwen3:8b",
+          "keep_alive": "5m",
+          "max_output_tokens": 800,
+          "model": "qwen3:4b-thinking",
+          "num_ctx": 8192,
+          "reasoning_effort": "high",
+          "temperature": 0,
+          "think": true
+        },
+        "INVESTIGATOR": {
+          "fallback_model": "qwen2.5-coder:1.5b",
+          "keep_alive": "5m",
+          "max_output_tokens": 1200,
+          "model": "qwen2.5-coder:7b",
+          "num_ctx": 12288,
+          "reasoning_effort": "high",
+          "temperature": 0,
+          "think": false
+        },
+        "JUDGE": {
+          "fallback_model": "qwen3:4b-thinking",
+          "keep_alive": "5m",
+          "max_output_tokens": 800,
+          "model": "qwen3:8b",
+          "num_ctx": 8192,
+          "reasoning_effort": "xhigh",
+          "temperature": 0,
+          "think": true
+        },
+        "TRIAGE": {
+          "fallback_model": "qwen2.5-coder:7b",
+          "keep_alive": "5m",
+          "max_output_tokens": 400,
+          "model": "qwen2.5-coder:1.5b",
+          "num_ctx": 4096,
+          "reasoning_effort": "low",
+          "temperature": 0,
+          "think": false
+        }
+      }
+    },
+    "local-constrained": {
+      "provider": "ollama-local",
+      "endpoint": "http://127.0.0.1:11434",
+      "roles": {
+        "CHALLENGER": {
+          "keep_alive": 0,
+          "max_output_tokens": 800,
+          "model": "qwen3:4b-thinking",
+          "num_ctx": 4096,
+          "reasoning_effort": "high",
+          "temperature": 0,
+          "think": false
+        },
+        "INVESTIGATOR": {
+          "keep_alive": 0,
+          "max_output_tokens": 1200,
+          "model": "qwen2.5-coder:7b",
+          "num_ctx": 8192,
+          "reasoning_effort": "high",
+          "temperature": 0,
+          "think": false
+        },
+        "JUDGE": {
+          "keep_alive": 0,
+          "max_output_tokens": 800,
+          "model": "qwen3:4b-thinking",
+          "num_ctx": 4096,
+          "reasoning_effort": "xhigh",
+          "temperature": 0,
+          "think": false
+        },
+        "TRIAGE": {
+          "keep_alive": 0,
+          "max_output_tokens": 400,
+          "model": "qwen2.5-coder:1.5b",
+          "num_ctx": 4096,
+          "reasoning_effort": "low",
+          "temperature": 0,
+          "think": false
+        }
+      }
+    },
+    "gemini-free": {
+      "provider": "gemini-generate-content",
+      "endpoint": "https://generativelanguage.googleapis.com/v1beta",
+      "roles": {
+        "CHALLENGER": {
+          "max_output_tokens": 800,
+          "model": "gemini-3.6-flash",
+          "reasoning_effort": "medium",
+          "temperature": 0
+        },
+        "INVESTIGATOR": {
+          "max_output_tokens": 1200,
+          "model": "gemini-3.6-flash",
+          "reasoning_effort": "medium",
+          "temperature": 0
+        },
+        "JUDGE": {
+          "max_output_tokens": 800,
+          "model": "gemini-3.6-flash",
+          "reasoning_effort": "high",
+          "temperature": 0
+        },
+        "TRIAGE": {
+          "max_output_tokens": 400,
+          "model": "gemini-3.6-flash",
+          "reasoning_effort": "low",
+          "temperature": 0
+        }
+      }
+    },
+    "gemini-recovery": {
+      "provider": "gemini-generate-content",
+      "endpoint": "https://generativelanguage.googleapis.com/v1beta",
+      "roles": {
+        "CHALLENGER": {
+          "max_output_tokens": 1536,
+          "model": "gemini-3.5-flash-lite",
+          "reasoning_effort": "low"
+        },
+        "INVESTIGATOR": {
+          "max_output_tokens": 2048,
+          "model": "gemini-3.5-flash-lite",
+          "reasoning_effort": "low"
+        },
+        "JUDGE": {
+          "max_output_tokens": 1024,
+          "model": "gemini-3.5-flash-lite",
+          "reasoning_effort": "none"
+        },
+        "TRIAGE": {
+          "max_output_tokens": 1024,
+          "model": "gemini-3.5-flash-lite",
+          "reasoning_effort": "none"
+        }
+      }
+    },
+    "gemini-recovery-smoke": {
+      "provider": "gemini-generate-content",
+      "endpoint": "https://generativelanguage.googleapis.com/v1beta",
+      "roles": {
+        "CHALLENGER": {
+          "max_output_tokens": 1536,
+          "model": "gemini-3.5-flash-lite",
+          "reasoning_effort": "low"
+        },
+        "INVESTIGATOR": {
+          "max_output_tokens": 2048,
+          "model": "gemini-3.5-flash-lite",
+          "reasoning_effort": "low"
+        },
+        "JUDGE": {
+          "max_output_tokens": 1024,
+          "model": "gemini-3.5-flash-lite",
+          "reasoning_effort": "none"
+        },
+        "TRIAGE": {
+          "max_output_tokens": 1024,
+          "model": "gemini-3.5-flash-lite",
+          "reasoning_effort": "none"
+        }
+      }
+    }
+  },
+  "schema_version": "model-routing-v1"
+}

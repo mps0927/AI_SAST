@@ -1,0 +1,21 @@
+{
+  "models": {
+    "qwen2.5-coder:1.5b": {
+      "structured_output": true,
+      "thinking": false
+    },
+    "qwen2.5-coder:7b": {
+      "structured_output": true,
+      "thinking": false
+    },
+    "qwen3:4b-thinking": {
+      "structured_output": true,
+      "thinking": true
+    },
+    "qwen3:8b": {
+      "structured_output": true,
+      "thinking": true
+    }
+  },
+  "schema_version": "local-model-capabilities-v1"
+}

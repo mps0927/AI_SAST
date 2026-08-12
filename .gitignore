@@ -1,0 +1,84 @@
+# Python build/runtime artifacts
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Local dependency and application caches
+.deps/
+.cache/
+.venv/
+venv/
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+credentials*.json
+secrets*.json
+
+# External read-only TargetCode (clone using README instructions)
+target/userland/
+
+# Raw development, failed, smoke, benchmark, and preflight runs.
+# The curated submission result is artifacts/final-run/ and remains tracked.
+artifacts/runs/
+artifacts/preflight/
+artifacts/benchmarks/
+artifacts/final-run/preflight.json
+artifacts/stage*-verification.json
+artifacts/stage*-stability-verification.json
+artifacts/gemini-*-verification.json
+artifacts/stage6-preflight.json
+artifacts/stage2-summary.json
+
+# Superseded local documentation/dependency snapshots (preserved locally)
+requirements-stage2.txt
+src/README.md
+
+# Local-only development and superseded entrypoints
+src/benchmark_local_*.py
+src/cli.py
+src/export_stage3_schemas.py
+src/finalize_interrupted_gemini_run.py
+src/run_gemini_analysis.py
+src/run_gemini_smoke.py
+src/run_stage3.py
+src/validate_*.py
+
+# Local-only development history and submission-management files.
+docs/gemini-deadline-test-profile.md
+docs/gemini-failure-improvement.md
+docs/gemini-recovery.md
+docs/github-publication-plan.md
+docs/openai-api-contract.md
+docs/staging-manifest.md
+docs/submission-checklist.md
+tools/legacy/
+src/run_gemini_deadline_analysis.py
+src/run_gemini_recovery_analysis.py
+src/refine_sast/runtime/deadline_gemini_analysis.py
+src/refine_sast/runtime/gemini_validator.py
+src/refine_sast/runtime/stage3_validator.py
+src/refine_sast/runtime/stage4_validator.py
+src/refine_sast/runtime/stage5_validator.py
+src/refine_sast/runtime/stage_barrier.py
+tests/test_gemini_deadline_entrypoint.py
+tests/test_gemini_deadline_profile.py
+tests/test_gemini_recovery_entrypoint.py
+tests/test_stage3_integration.py
+tests/test_stage4_provider_contract.py
+tests/test_stage4_routing_ledger.py
+tests/test_stage5_local_provider.py
+tests/test_stage5_stage_barrier.py
+
+# Editor and OS files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

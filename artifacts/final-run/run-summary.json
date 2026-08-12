@@ -1,0 +1,39 @@
+{
+  "actual_three_batch_analysis": true,
+  "additional_analysis_performed": false,
+  "agent_call_counts": {
+    "CHALLENGER": 3,
+    "INVESTIGATOR": 3,
+    "JUDGE": 3,
+    "TRIAGE": 3
+  },
+  "api_attempt_cap": 19,
+  "api_attempts": 12,
+  "api_attempts_current_run": 12,
+  "api_attempts_prior_run": 0,
+  "cache_hits": 0,
+  "continuation_of": null,
+  "errors": [],
+  "logical_agent_calls": 12,
+  "model": "gemini-3.5-flash-lite",
+  "orchestrator_version": "gemini-recovery-entrypoint-v1",
+  "profile": "gemini-recovery",
+  "provider": "gemini-generate-content",
+  "retry_attempts": 0,
+  "run_id": "gemini-recovery-3batch-20260812T175919Z",
+  "schema_version": "gemini-live-run-summary-v1",
+  "selected_batch_ids": [
+    "BAT-A8363625BEDB28094BEF",
+    "BAT-B3DA91B545FB3EF2B360",
+    "BAT-7E6A7DCB5C894DC0A989"
+  ],
+  "selection_hash": "sha256:8c89de6d61f5338d11066821fa374432dc95d23bf8a1ad47ffc11b137f087a50",
+  "selection_unchanged": true,
+  "target_clean_after": true,
+  "target_clean_before": true,
+  "verdicts": {
+    "BAT-7E6A7DCB5C894DC0A989": "INCONCLUSIVE",
+    "BAT-A8363625BEDB28094BEF": "CONFIRMED",
+    "BAT-B3DA91B545FB3EF2B360": "CONFIRMED"
+  }
+}

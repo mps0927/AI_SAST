@@ -1,0 +1,281 @@
+{
+  "$defs": {
+    "AgentName": {
+      "enum": [
+        "TRIAGE",
+        "INVESTIGATOR",
+        "CHALLENGER",
+        "JUDGE"
+      ],
+      "title": "AgentName",
+      "type": "string"
+    },
+    "ContradictionPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "finding_id": {
+          "title": "Finding Id",
+          "type": "string"
+        },
+        "reason_code": {
+          "title": "Reason Code",
+          "type": "string"
+        },
+        "refutes_obligation_id": {
+          "title": "Refutes Obligation Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "finding_id",
+        "reason_code",
+        "refutes_obligation_id"
+      ],
+      "title": "ContradictionPayload",
+      "type": "object"
+    },
+    "EvidencePayload": {
+      "additionalProperties": false,
+      "properties": {
+        "summary_code": {
+          "title": "Summary Code",
+          "type": "string"
+        },
+        "supports_obligation_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Supports Obligation Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "summary_code"
+      ],
+      "title": "EvidencePayload",
+      "type": "object"
+    },
+    "FindingPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "finding_id": {
+          "title": "Finding Id",
+          "type": "string"
+        },
+        "hypothesis_code": {
+          "title": "Hypothesis Code",
+          "type": "string"
+        },
+        "obligation_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Obligation Ids",
+          "type": "array"
+        },
+        "severity": {
+          "enum": [
+            "LOW",
+            "MEDIUM",
+            "HIGH",
+            "CRITICAL"
+          ],
+          "title": "Severity",
+          "type": "string"
+        }
+      },
+      "required": [
+        "finding_id",
+        "hypothesis_code",
+        "severity",
+        "obligation_ids"
+      ],
+      "title": "FindingPayload",
+      "type": "object"
+    },
+    "MessageType": {
+      "enum": [
+        "FINDING",
+        "EVIDENCE",
+        "REQUEST_CONTEXT",
+        "CONTRADICTION"
+      ],
+      "title": "MessageType",
+      "type": "string"
+    },
+    "ProofObligation": {
+      "additionalProperties": false,
+      "properties": {
+        "description_code": {
+          "title": "Description Code",
+          "type": "string"
+        },
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "obligation_id": {
+          "title": "Obligation Id",
+          "type": "string"
+        },
+        "required": {
+          "default": true,
+          "title": "Required",
+          "type": "boolean"
+        },
+        "status": {
+          "$ref": "#/$defs/ProofStatus",
+          "default": "UNKNOWN"
+        }
+      },
+      "required": [
+        "obligation_id",
+        "description_code"
+      ],
+      "title": "ProofObligation",
+      "type": "object"
+    },
+    "ProofStatus": {
+      "enum": [
+        "SUPPORTED",
+        "REFUTED",
+        "UNKNOWN"
+      ],
+      "title": "ProofStatus",
+      "type": "string"
+    },
+    "RequestContextPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "chunk_id": {
+          "title": "Chunk Id",
+          "type": "string"
+        },
+        "obligation_id": {
+          "title": "Obligation Id",
+          "type": "string"
+        },
+        "reason_code": {
+          "title": "Reason Code",
+          "type": "string"
+        },
+        "request_kind": {
+          "$ref": "#/$defs/RequestKind"
+        }
+      },
+      "required": [
+        "request_kind",
+        "chunk_id",
+        "obligation_id",
+        "reason_code"
+      ],
+      "title": "RequestContextPayload",
+      "type": "object"
+    },
+    "RequestKind": {
+      "enum": [
+        "GET_FUNCTION",
+        "GET_CALLERS",
+        "GET_CALLEES",
+        "GET_TYPE_DEFINITION",
+        "GET_MACRO",
+        "GET_GUARDS",
+        "GET_DATAFLOW_SLICE",
+        "GET_GLOBAL_WRITES",
+        "GET_BUILD_CONDITION"
+      ],
+      "title": "RequestKind",
+      "type": "string"
+    },
+    "StructuredMessage": {
+      "additionalProperties": false,
+      "properties": {
+        "agent": {
+          "$ref": "#/$defs/AgentName"
+        },
+        "batch_id": {
+          "title": "Batch Id",
+          "type": "string"
+        },
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "message_id": {
+          "title": "Message Id",
+          "type": "string"
+        },
+        "message_type": {
+          "$ref": "#/$defs/MessageType"
+        },
+        "payload": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/FindingPayload"
+            },
+            {
+              "$ref": "#/$defs/EvidencePayload"
+            },
+            {
+              "$ref": "#/$defs/RequestContextPayload"
+            },
+            {
+              "$ref": "#/$defs/ContradictionPayload"
+            }
+          ],
+          "title": "Payload"
+        }
+      },
+      "required": [
+        "message_id",
+        "message_type",
+        "agent",
+        "batch_id",
+        "payload"
+      ],
+      "title": "StructuredMessage",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "messages": {
+      "items": {
+        "$ref": "#/$defs/StructuredMessage"
+      },
+      "title": "Messages",
+      "type": "array"
+    },
+    "obligation_updates": {
+      "items": {
+        "$ref": "#/$defs/ProofObligation"
+      },
+      "title": "Obligation Updates",
+      "type": "array"
+    },
+    "terminate": {
+      "title": "Terminate",
+      "type": "boolean"
+    },
+    "unresolved_obligation_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Unresolved Obligation Ids",
+      "type": "array"
+    }
+  },
+  "required": [
+    "messages",
+    "terminate"
+  ],
+  "title": "InvestigatorOutput",
+  "type": "object",
+  "x-agent-role": "INVESTIGATOR"
+}

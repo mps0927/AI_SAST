@@ -1,0 +1,24 @@
+{
+  "actual_api_attempts": 12,
+  "actual_api_input_tokens": 32148,
+  "actual_source_token_estimate_transmitted": 7887,
+  "content_hash_cache_hits": 0,
+  "current_run_api_attempts": 12,
+  "logical_agent_calls": 12,
+  "methodology": {
+    "actual_api_input": "provider-reported input tokens including prompts and schemas",
+    "actual_source_transmission": "lexical estimate of only verified source materialized for non-Judge calls",
+    "repository_direct_baseline": "all function chunks sent once to each of four agents",
+    "selected_batch_baseline": "all selected Batch source sent once to each of four agents"
+  },
+  "model_calls_skipped_by_cache": 0,
+  "prior_api_attempts": 0,
+  "repository_baseline_reduction_percent": 98.8314,
+  "repository_four_agent_baseline_tokens": 2750876,
+  "repository_source_token_estimate": 687719,
+  "retry_attempts": 0,
+  "schema_version": "token-savings-report-v1",
+  "selected_batch_source_token_estimate": 3713,
+  "selected_code_only_reduction_percent": 46.896,
+  "selected_four_agent_baseline_tokens": 14852
+}

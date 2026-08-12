@@ -1,0 +1,262 @@
+[
+  {
+    "agent_call_counts": {
+      "CHALLENGER": 1,
+      "INVESTIGATOR": 1,
+      "JUDGE": 1,
+      "TRIAGE": 1
+    },
+    "agent_order": [
+      "TRIAGE",
+      "INVESTIGATOR",
+      "CHALLENGER",
+      "JUDGE"
+    ],
+    "batch_id": "BAT-A8363625BEDB28094BEF",
+    "batch_order": 1,
+    "contradictions": [],
+    "evidence": [
+      {
+        "chunk_id": "CHK-06B93C69AD1A01BB609D",
+        "content_hash": "sha256:ade79c06ce1a11b697535fcc1860c66eaa0e94791e06421df3f61bccb1208f56",
+        "end_byte": 9884,
+        "end_line": 260,
+        "evidence_id": "EVD-D925C12B7E35BD982DDE",
+        "path": "containers/simple/simple_reader.c",
+        "start_byte": 4781,
+        "start_line": 138
+      }
+    ],
+    "failure_codes": [],
+    "finding": {
+      "finding_id": "FND-BAF7CE0CB3A5BFD48A55",
+      "hypothesis_code": "Potential buffer overflow due to unbounded string format specifier in sscanf reading URI into fixed-size buffer",
+      "obligation_ids": [
+        "OBL-7ABAA204E0491C9AA0BB",
+        "OBL-BF6370BEF72E19B6E620"
+      ],
+      "severity": "HIGH"
+    },
+    "focus_path": "containers/simple/simple_reader.c",
+    "focus_symbol": "simple_read_header",
+    "kernel_override": false,
+    "proof_obligations": [
+      {
+        "description_code": "VERIFY_BUFFER_SIZE_FOR_URI",
+        "evidence_ids": [
+          "EVD-D925C12B7E35BD982DDE"
+        ],
+        "obligation_id": "OBL-7ABAA204E0491C9AA0BB",
+        "required": true,
+        "status": "SUPPORTED"
+      },
+      {
+        "description_code": "CHECK_BOUNDS_ENFORCEMENT_ON_SSCANF",
+        "evidence_ids": [
+          "EVD-D925C12B7E35BD982DDE"
+        ],
+        "obligation_id": "OBL-BF6370BEF72E19B6E620",
+        "required": true,
+        "status": "SUPPORTED"
+      }
+    ],
+    "rationale_code": "ALL_OBLIGATIONS_SUPPORTED",
+    "required_proof_counts": {
+      "refuted": 0,
+      "required": 2,
+      "supported": 2,
+      "unknown": 0
+    },
+    "risk_tags": [
+      "raw-memory",
+      "unbounded-string"
+    ],
+    "synthetic_fail_safe_finding": false,
+    "token_governor": {
+      "batch_input_limit": 22000,
+      "batch_output_limit": 5000,
+      "context_requests": 0,
+      "context_tokens": 0,
+      "denied_reasons": [],
+      "exhausted": false,
+      "used_input": 10455,
+      "used_output": 350
+    },
+    "unresolved_obligation_ids": [],
+    "verdict": "CONFIRMED"
+  },
+  {
+    "agent_call_counts": {
+      "CHALLENGER": 1,
+      "INVESTIGATOR": 1,
+      "JUDGE": 1,
+      "TRIAGE": 1
+    },
+    "agent_order": [
+      "TRIAGE",
+      "INVESTIGATOR",
+      "CHALLENGER",
+      "JUDGE"
+    ],
+    "batch_id": "BAT-B3DA91B545FB3EF2B360",
+    "batch_order": 2,
+    "contradictions": [],
+    "evidence": [
+      {
+        "chunk_id": "CHK-071345389ADF1EED84D0",
+        "content_hash": "sha256:2956ed5a72e9cec284e59ca9b99e79a66eea7cacca32da1caad8aac521c3e46a",
+        "end_byte": 40264,
+        "end_line": 1139,
+        "evidence_id": "EVD-72AD55E6591FE38453B9",
+        "path": "host_applications/linux/apps/raspicam/RaspiVid.c",
+        "start_byte": 34462,
+        "start_line": 968
+      }
+    ],
+    "failure_codes": [],
+    "finding": {
+      "finding_id": "FND-4579304908D358206C84",
+      "hypothesis_code": "Potential format string vulnerability or uncontrolled resource consumption via untrusted filename parameters passed to asprintf or strftime.",
+      "obligation_ids": [
+        "OBL-667B55B3CE91E5CDE35E",
+        "OBL-26C80821AB338B267A3B"
+      ],
+      "severity": "MEDIUM"
+    },
+    "focus_path": "host_applications/linux/apps/raspicam/RaspiVid.c",
+    "focus_symbol": "open_filename",
+    "kernel_override": false,
+    "proof_obligations": [
+      {
+        "description_code": "VERIFY_TEMPNAME_FREE_PATH",
+        "evidence_ids": [
+          "EVD-72AD55E6591FE38453B9"
+        ],
+        "obligation_id": "OBL-26C80821AB338B267A3B",
+        "required": true,
+        "status": "SUPPORTED"
+      },
+      {
+        "description_code": "VERIFY_ASPRINTF_FORMAT_SAFETY",
+        "evidence_ids": [
+          "EVD-72AD55E6591FE38453B9"
+        ],
+        "obligation_id": "OBL-667B55B3CE91E5CDE35E",
+        "required": true,
+        "status": "SUPPORTED"
+      }
+    ],
+    "rationale_code": "ALL_REQUIRED_OBLIGATIONS_SUPPORTED",
+    "required_proof_counts": {
+      "refuted": 0,
+      "required": 2,
+      "supported": 2,
+      "unknown": 0
+    },
+    "risk_tags": [
+      "allocation",
+      "file-path",
+      "network",
+      "unbounded-string"
+    ],
+    "synthetic_fail_safe_finding": false,
+    "token_governor": {
+      "batch_input_limit": 22000,
+      "batch_output_limit": 5000,
+      "context_requests": 0,
+      "context_tokens": 0,
+      "denied_reasons": [],
+      "exhausted": false,
+      "used_input": 10989,
+      "used_output": 408
+    },
+    "unresolved_obligation_ids": [],
+    "verdict": "CONFIRMED"
+  },
+  {
+    "agent_call_counts": {
+      "CHALLENGER": 1,
+      "INVESTIGATOR": 1,
+      "JUDGE": 1,
+      "TRIAGE": 1
+    },
+    "agent_order": [
+      "TRIAGE",
+      "INVESTIGATOR",
+      "CHALLENGER",
+      "JUDGE"
+    ],
+    "batch_id": "BAT-7E6A7DCB5C894DC0A989",
+    "batch_order": 3,
+    "contradictions": [],
+    "evidence": [
+      {
+        "chunk_id": "CHK-7B7AB1337EF4F5FB3825",
+        "content_hash": "sha256:8acdd3ab57caa38a1874da15a3876c9ef048dfde2902c1dcde51c4df4dff8ac1",
+        "end_byte": 9451,
+        "end_line": 276,
+        "evidence_id": "EVD-23C43AD15AADF6213B7C",
+        "path": "containers/net/net_sockets_common.c",
+        "start_byte": 4865,
+        "start_line": 135
+      }
+    ],
+    "failure_codes": [],
+    "finding": {
+      "finding_id": "FND-607510DF4876544BAD1F",
+      "hypothesis_code": "Potential buffer overflow or out-of-bounds copy via memcpy into p_ctx->to_addr if p->ai_addrlen exceeds the allocated size of the destination structure.",
+      "obligation_ids": [
+        "OBL-F5B8DD87846712BBD933",
+        "OBL-87365926020084455DAE"
+      ],
+      "severity": "HIGH"
+    },
+    "focus_path": "containers/net/net_sockets_common.c",
+    "focus_symbol": "vc_container_net_open",
+    "kernel_override": false,
+    "proof_obligations": [
+      {
+        "description_code": "CHECK_AI_ADDRLEN_BOUNDS",
+        "evidence_ids": [],
+        "obligation_id": "OBL-87365926020084455DAE",
+        "required": true,
+        "status": "UNKNOWN"
+      },
+      {
+        "description_code": "VERIFY_DESTINATION_BUFFER_SIZE",
+        "evidence_ids": [],
+        "obligation_id": "OBL-F5B8DD87846712BBD933",
+        "required": true,
+        "status": "UNKNOWN"
+      }
+    ],
+    "rationale_code": "OBLIGATIONS_UNKNOWN",
+    "required_proof_counts": {
+      "refuted": 0,
+      "required": 2,
+      "supported": 0,
+      "unknown": 2
+    },
+    "risk_tags": [
+      "allocation",
+      "network",
+      "raw-memory"
+    ],
+    "synthetic_fail_safe_finding": false,
+    "token_governor": {
+      "batch_input_limit": 22000,
+      "batch_output_limit": 5000,
+      "context_requests": 1,
+      "context_tokens": 716,
+      "denied_reasons": [],
+      "exhausted": false,
+      "used_input": 11420,
+      "used_output": 423
+    },
+    "unresolved_obligation_ids": [
+      "OBL-87365926020084455DAE",
+      "OBL-F5B8DD87846712BBD933"
+    ],
+    "verdict": "INCONCLUSIVE"
+  }
+]

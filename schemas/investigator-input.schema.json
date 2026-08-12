@@ -1,0 +1,170 @@
+{
+  "$defs": {
+    "AgentContext": {
+      "additionalProperties": false,
+      "properties": {
+        "agent": {
+          "$ref": "#/$defs/AgentName"
+        },
+        "available_chunk_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Available Chunk Ids",
+          "type": "array"
+        },
+        "batch_id": {
+          "title": "Batch Id",
+          "type": "string"
+        },
+        "budget_snapshot": {
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              }
+            ]
+          },
+          "title": "Budget Snapshot",
+          "type": "object"
+        },
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "input_message_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Input Message Ids",
+          "type": "array"
+        },
+        "phase": {
+          "default": 0,
+          "title": "Phase",
+          "type": "integer"
+        },
+        "risk_tags": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Risk Tags",
+          "type": "array"
+        },
+        "scenario": {
+          "$ref": "#/$defs/Verdict"
+        }
+      },
+      "required": [
+        "agent",
+        "batch_id",
+        "scenario"
+      ],
+      "title": "AgentContext",
+      "type": "object"
+    },
+    "AgentName": {
+      "enum": [
+        "TRIAGE",
+        "INVESTIGATOR",
+        "CHALLENGER",
+        "JUDGE"
+      ],
+      "title": "AgentName",
+      "type": "string"
+    },
+    "ProofObligation": {
+      "additionalProperties": false,
+      "properties": {
+        "description_code": {
+          "title": "Description Code",
+          "type": "string"
+        },
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "obligation_id": {
+          "title": "Obligation Id",
+          "type": "string"
+        },
+        "required": {
+          "default": true,
+          "title": "Required",
+          "type": "boolean"
+        },
+        "status": {
+          "$ref": "#/$defs/ProofStatus",
+          "default": "UNKNOWN"
+        }
+      },
+      "required": [
+        "obligation_id",
+        "description_code"
+      ],
+      "title": "ProofObligation",
+      "type": "object"
+    },
+    "ProofStatus": {
+      "enum": [
+        "SUPPORTED",
+        "REFUTED",
+        "UNKNOWN"
+      ],
+      "title": "ProofStatus",
+      "type": "string"
+    },
+    "Verdict": {
+      "enum": [
+        "CONFIRMED",
+        "REJECTED",
+        "INCONCLUSIVE"
+      ],
+      "title": "Verdict",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "context": {
+      "$ref": "#/$defs/AgentContext"
+    },
+    "finding_message_id": {
+      "title": "Finding Message Id",
+      "type": "string"
+    },
+    "obligations": {
+      "items": {
+        "$ref": "#/$defs/ProofObligation"
+      },
+      "title": "Obligations",
+      "type": "array"
+    }
+  },
+  "required": [
+    "context",
+    "obligations",
+    "finding_message_id"
+  ],
+  "title": "InvestigatorInput",
+  "type": "object",
+  "x-agent-role": "INVESTIGATOR"
+}

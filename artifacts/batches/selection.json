@@ -1,0 +1,71 @@
+{
+  "batch_builder_version": "batch-builder-v1",
+  "candidate_batch_count": 520,
+  "constraints": {
+    "distinct_focus_files": 3,
+    "risk_tags": [
+      "allocation",
+      "file-path",
+      "network",
+      "raw-memory",
+      "unbounded-string"
+    ],
+    "top_level_directories": [
+      "containers",
+      "host_applications"
+    ]
+  },
+  "llm_calls_before_selection": 0,
+  "result_blind": true,
+  "schema_version": "stage2-artifacts-v1",
+  "selected_batch_ids": [
+    "BAT-A8363625BEDB28094BEF",
+    "BAT-B3DA91B545FB3EF2B360",
+    "BAT-7E6A7DCB5C894DC0A989"
+  ],
+  "selection_count": 3,
+  "selection_hash": "sha256:8c89de6d61f5338d11066821fa374432dc95d23bf8a1ad47ffc11b137f087a50",
+  "selection_trace": [
+    {
+      "batch_id": "BAT-A8363625BEDB28094BEF",
+      "focus_path": "containers/simple/simple_reader.c",
+      "focus_symbol": "simple_read_header",
+      "order": 1,
+      "risk_score": 72.0,
+      "risk_tags": [
+        "raw-memory",
+        "unbounded-string"
+      ],
+      "selection_score": 1.0
+    },
+    {
+      "batch_id": "BAT-B3DA91B545FB3EF2B360",
+      "focus_path": "host_applications/linux/apps/raspicam/RaspiVid.c",
+      "focus_symbol": "open_filename",
+      "order": 2,
+      "risk_score": 68.0,
+      "risk_tags": [
+        "allocation",
+        "file-path",
+        "network",
+        "unbounded-string"
+      ],
+      "selection_score": 1.091944
+    },
+    {
+      "batch_id": "BAT-7E6A7DCB5C894DC0A989",
+      "focus_path": "containers/net/net_sockets_common.c",
+      "focus_symbol": "vc_container_net_open",
+      "order": 3,
+      "risk_score": 71.0,
+      "risk_tags": [
+        "allocation",
+        "network",
+        "raw-memory"
+      ],
+      "selection_score": 0.980486
+    }
+  ],
+  "selector_version": "result-blind-diversity-v1",
+  "target_commit": "a54a0dbb2b8dcf9bafdddfc9a9374fb51d97e976"
+}
