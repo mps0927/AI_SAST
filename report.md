@@ -1,6 +1,5 @@
 # AI 기반 Multi-Agent SAST 설계 보고서
 이름: 이재우
-작성일: 2026-08-13
 ## 1. Agent 구성도와 Skill 작성 시 주안점
 
 REFINE-SAST의 Agent는 자유롭게 대화하는 LLM 인스턴스가 아니라, 역할별
