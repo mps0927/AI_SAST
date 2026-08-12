@@ -164,31 +164,90 @@ Skill 작성에서 다음을 우선했다.
 
 ## 7. Agent Prompt
 
-실행에 사용한 전체 prompt는 [`prompts/`](prompts/)에 있고 각 파일 hash는
-token ledger의 prompt version으로 추적된다. 핵심 지시는 다음과 같다.
+### 7.1 Multi-Agent 설계 요청 프롬프트
 
-### Triage
+아래는 Multi-Agent 구조를 구현할 때 사용한 요구사항을 보고서용으로 정리한
+설계 요청 프롬프트다. 단순히 LLM 네 개를 호출하는 것이 아니라 역할, 권한,
+통신 형식, 실패 조건까지 프로그램 계약으로 만들도록 요구했다.
 
-> Security Sketch, risk tag, stable Evidence ID만 받고 하나의 가설과 명시적
-> proof obligation을 만든다. SAFE/CONFIRMED/REJECTED를 출력하지 않는다.
+```text
+대형 C/C++ 저장소를 분석하는 Multi-Agent SAST 구조를 설계하고 구현하라.
 
-### Investigator
+분석 입력은 코드 분할과 result-blind 선정 과정을 거쳐 사전에 고정된 3개
+Batch로 제한하고, Triage → Investigator → Challenger → Judge 순서로 모든
+역할을 실행하라. 각 Agent는 별도 클래스, 역할별 prompt, 입력·출력 schema,
+독립 context와 종료 조건을 가져야 하며 Orchestrator가 실행 순서와 상태
+전이를 관리해야 한다.
 
-> Evidence 기반 source/sink/guard 논증만 만들며 부족한 코드는
-> REQUEST_CONTEXT로 요청한다. Agent 메시지에 source 원문을 복사하지 않고,
-> 등록 Evidence 없이는 SUPPORTED를 만들지 않는다.
+Agent 사이에는 코드 원문과 자유 형식 대화를 반복 전달하지 말고 Evidence
+Blackboard의 검증된 Evidence ID와 구조형 packet만 공유하라. 허용 메시지는
+FINDING, EVIDENCE, REQUEST_CONTEXT, CONTRADICTION으로 제한하라.
 
-### Challenger
+Evidence를 등록하거나 사용하기 전에 TargetCode의 상대 파일 경로, 행 범위,
+byte 범위와 content hash를 다시 검증하라. 불일치하는 Evidence는 거부하고
+해당 proof obligation을 UNKNOWN으로 유지하라.
 
-> sanitizer, bound check, unreachable path, build exclusion, safe wrapper 등
-> 반례를 독립적으로 찾는다. Investigator의 hidden reasoning을 상속하지 않고
-> final verdict를 내리지 않는다.
+Context Retriever는 요청된 최소 코드 범위만 제공하고 Token Governor는
+Agent별 입력·출력 예산, 추가 문맥 요청 횟수와 Batch 전체 예산을 제한하라.
+Agent가 실패하더라도 후속 역할은 UNKNOWN proof packet을 받아 실행 기록을
+남기고, 미확인 proof 또는 예산 소진이 있으면 안전하다고 단정하지 말고
+INCONCLUSIVE로 종료하라.
 
-### Judge
+Judge의 LLM 출력만으로 verdict를 확정하지 말고 다음 결정론적 규칙을
+프로그램에서 다시 강제하라.
+- 모든 필수 proof가 SUPPORTED이고 REFUTED가 없으면 CONFIRMED
+- 필수 proof가 하나라도 REFUTED이면 REJECTED
+- 필수 proof가 UNKNOWN이거나 예산이 소진되면 INCONCLUSIVE
 
-> 필수 proof가 모두 SUPPORTED이고 REFUTED가 없을 때만 CONFIRMED, 필수 proof가
-> REFUTED면 REJECTED, 하나라도 UNKNOWN이거나 예산이 소진되면 INCONCLUSIVE를
-> 반환한다.
+로그에는 Agent, Batch, Evidence ID, 메시지 유형, prompt/schema version,
+token usage와 상태 전이만 기록하고 API Key, prompt 본문, 코드 원문과
+비밀정보는 저장하지 말라.
+
+구조형 메시지 제한, Evidence 변조·범위 오류 거부, Token Governor 예산,
+Agent 실행 순서, 세 verdict, 실패 후 후속 Agent 실행과 재실행 결정성을
+네트워크 없는 단위·통합 테스트로 검증하라.
+```
+
+### 7.2 Agent별 실제 실행 Prompt
+
+실행에 사용한 prompt 원문은 [`prompts/`](prompts/)에 저장했다. 아래 내용은
+제출 시점의 `prompt-v1` 파일과 동일하며, 호출 기록에서는 prompt 본문 대신
+prompt version만 token ledger에 기록한다.
+
+#### Triage Agent
+
+```text
+You receive only a Security Sketch, risk tags, stable Evidence IDs, and a minimal CWE template.
+
+Your authority is limited to prioritization and creation of a single hypothesis with explicit proof obligations. Output only `FINDING` or `REQUEST_CONTEXT` structured messages. Never emit SAFE, CONFIRMED, REJECTED, or a final vulnerability decision. Terminate after one bounded triage decision.
+```
+
+#### Investigator Agent
+
+```text
+You receive one prioritized finding, proof obligations, and Evidence IDs in an independent context. Build only an evidence-backed source/sink/guard argument. Request missing code only through `REQUEST_CONTEXT`; never copy source text into inter-agent messages. `SUPPORTED` requires a registered Evidence ID. Do not produce a final verdict. Terminate when all obligations are updated or a bounded context request cannot resolve uncertainty.
+```
+
+#### Challenger Agent
+
+```text
+Independently search the provided Evidence IDs and proof table for a sanitizer, bound check, unreachable path, build exclusion, safe wrapper, or other counterexample. Output only `CONTRADICTION` or `REQUEST_CONTEXT` structured messages. Do not inherit Investigator hidden reasoning and do not issue a final verdict. Terminate after the bounded contradiction pass.
+```
+
+#### Judge Agent
+
+```text
+Receive only the finding, registered Evidence IDs, contradiction messages, proof obligations, and budget state. Never use hidden reasoning from another agent. Return CONFIRMED only when every required obligation is SUPPORTED and none is REFUTED. Return REJECTED when a required obligation is REFUTED. Return INCONCLUSIVE when any required obligation is UNKNOWN or context/budget is exhausted. Terminate after one verdict.
+```
+
+### 7.3 Prompt 설계 의도와 구현 대응
+
+네 prompt의 공통 원칙은 역할별 최소 권한, hidden reasoning 비공유, Evidence
+없는 주장 금지, 명시적인 종료 조건이다. Triage·Investigator·Challenger는
+최종 판정 권한이 없고 Judge도 제안만 생성한다. 최종 verdict는 6절에서 정한
+proof-obligation safety kernel이 다시 검증하므로 prompt injection이나 모델의
+과도한 확신이 곧바로 최종 판정으로 이어지지 않는다. Agent 간 Evidence
+전달과 변조 검증의 구체적인 방법은 8절에서 설명한다.
 
 ## 8. Evidence Blackboard와 신뢰성 설계
 
