@@ -30,7 +30,7 @@ REFINE-SAST는 대형 C/C++ 저장소를 함수 중심 Chunk로 분할하고, �
 ├── prompts/                 # Agent 역할 prompt
 ├── schemas/                 # 입출력·메시지 JSON schema
 ├── src/refine_sast/
-│   ├── agents/              # 네 Agent
+│   ├── agents/              # Agent
 │   ├── providers/           # Gemini/Ollama/Mock/OpenAI 경계
 │   └── runtime/             # Orchestrator, Evidence, Proof, Token 제어
 ├── tests/                   # 네트워크 없는 단위·통합 테스트
