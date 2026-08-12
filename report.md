@@ -387,33 +387,8 @@ overflow 가능성은 낮다. 이는 Challenger가 상위 입력 길이 불변�
 분리돼 있고 최종 결정권 일부를 deterministic program이 보유한다는 점이
 핵심 차별점이다.
 
-## 12. 테스트와 검증
 
-개발 단계 전체 회귀 테스트는 67개였으며, 과거 Provider 실험과 단계별 보조
-검증을 제외한 GitHub 제출본의 핵심 오프라인 테스트는 **39/39 통과**했다.
-
-주요 검증 범위:
-
-- 함수·전처리기·문자열·주석 경계 보존
-- 대형 함수 분할과 token budget
-- Chunk/Batch ID 재현성
-- Content Hash Cache hit
-- 분석 Batch 수와 result-blind 선정 규칙
-- 허용 구조형 메시지 제한
-- Evidence hash·범위·변조 거부
-- Token Governor 예산 초과
-- 네 Agent의 실행 순서와 생략 방지
-- CONFIRMED/REJECTED/INCONCLUSIVE 상태 머신
-- Gemini 정상, 빈 응답, MAX_TOKENS, JSON/schema/domain 오류, 429
-- schema 오류에서 usage 보존
-- 실제 실행 승인 없이 API 호출 차단
-- 로그에서 secret/source/prompt 제외
-
-TargetCode의 작업 전후 Git status는 clean이었고, TargetCode 내부에 생성하거나
-수정한 파일은 없다. 최종 artifact 검사에서도 API Key 실제 값은 발견되지
-않았다.
-
-## 13. 재현 방법
+## 12. 재현 방법
 
 ```powershell
 python -m venv .venv
@@ -427,7 +402,7 @@ python sast.py scan
 python sast.py test
 ```
 
-## 14. 한계와 개선 방향
+## 13. 한계와 개선 방향
 
 ### 현재 한계
 
@@ -453,7 +428,7 @@ python sast.py test
 5. Gemini와 Local LLM을 같은 fixture에서 비교하는 evaluation dataset을 만든다.
 6. 최초 실행과 cache 재실행의 실제 비용·지연시간을 별도 benchmark한다.
 
-## 15. 결론
+## 14. 결론
 
 REFINE-SAST는 과제의 다섯 필수 조건을 모두 실제 코드와 artifact로 충족했다.
 대형 저장소를 4,659개 의미 Chunk로 분할했고, 결과를 모르는 상태에서 고정한
